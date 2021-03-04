@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     columnsNames.append(QString("Руководитель"));
     ui->mainTable->setHorizontalHeaderLabels(columnsNames);
 }
-
 MainWindow::~MainWindow()
 {
     delete ui;
