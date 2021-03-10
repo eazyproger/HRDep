@@ -5,5 +5,6 @@
         <file>icon/edit.png</file>
         <file>icon/logout.png</file>
         <file>icon/main.png</file>
+        <file>icon/authorization.png</file>
     </qresource>
 </RCC>

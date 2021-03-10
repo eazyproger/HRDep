@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Отдел Кадров");
     this->setWindowIcon(QIcon(":/img/icon/main.png"));
+    this->showMaximized();
+    this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // убрал вопрос
+
     ui->mainTable->setColumnCount(13);
     ui->mainTable->setRowCount(13);
 
