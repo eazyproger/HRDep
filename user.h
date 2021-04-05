@@ -7,20 +7,20 @@ class User
 {
 public:
     User();
-    User(QString name, QString surname, QString lastname, QDate birthday, QString education,
-         QString profession, QString marritalStatus, int numberOfChildren);
-private:
+    User(QString login, QString pass);
+    QString login;
+    QString password;
     QString name;
     QString surname;
-    QString lastname;
-    int personalNumber;
+    QString lastName;
+    qint16 personalNumber;
     QDate birthday;
     QString education;
     QString profession;
     QString post;
-    int divisionNumber;
+    qint16 divisionNumber;
     QString marritalStatus;
-    int numberOfChildren;
+    qint16 numberOfChildren;
     QString divisionName;
     QString director;
 };

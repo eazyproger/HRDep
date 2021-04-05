@@ -18,6 +18,8 @@ public:
 private slots:
     void on_okCancelRegistration_accepted();
 
+    void on_okCancelRegistration_rejected();
+
 private:
     Ui::Registration *ui;
 };

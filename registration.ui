@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>240</height>
+    <width>328</width>
+    <height>275</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,14 +34,14 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <widget class="QLineEdit" name="lineEdit_20"/>
-       <widget class="QLineEdit" name="lineEdit_14"/>
-       <widget class="QLineEdit" name="lineEdit_11"/>
-       <widget class="QDateEdit" name="dateEdit_2"/>
-       <widget class="QLineEdit" name="lineEdit_15"/>
-       <widget class="QLineEdit" name="lineEdit_12"/>
-       <widget class="QComboBox" name="comboBox_2"/>
-       <widget class="QSpinBox" name="spinBox_2"/>
+       <widget class="QLineEdit" name="surname"/>
+       <widget class="QLineEdit" name="name"/>
+       <widget class="QLineEdit" name="lastName"/>
+       <widget class="QDateEdit" name="birthday"/>
+       <widget class="QLineEdit" name="education"/>
+       <widget class="QLineEdit" name="profession"/>
+       <widget class="QComboBox" name="marritalStatus"/>
+       <widget class="QSpinBox" name="numberOfChildren"/>
       </widget>
      </item>
      <item row="0" column="0">
