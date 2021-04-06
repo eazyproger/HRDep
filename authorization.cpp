@@ -3,6 +3,8 @@
 #include "database.h"
 #include "registration.h"
 #include <QMessageBox>
+#include "mainwindow.h"
+#include <QStyle>
 
 Authorization::Authorization(QWidget *parent) :
     QDialog(parent),
@@ -40,24 +42,34 @@ void Authorization::on_registrationButton_clicked()
     }
     else
     {
-        QMessageBox info;
-        info.setText("Поля логин и пароль не могут быть пустыми!");
+        QMessageBox info(QMessageBox::NoIcon, "Информация",
+                         "Поля логин и пароль не могут быть пустыми.");
+        info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
         info.exec();
     }
 }
 
 void Authorization::on_logInButton_clicked()
 {
-    if (Database::userIsExists(ui->loginLine->text(), ui->passLine->text()))
+    QMessageBox info(QMessageBox::NoIcon, "Информация","");
+    info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+    int levelAccess = Database::userIsExists(ui->loginLine->text(), ui->passLine->text());
+    if (levelAccess != -1)
     {
-        QMessageBox info;
-        info.setText("ok");
-        info.exec();
-
+        if (levelAccess != 0)
+        {
+            MainWindow *w = new MainWindow(Database::getUser(ui->loginLine->text()));
+            w->show();
+            this->close();
+        }
+        else
+        {
+            info.setText("Учетная запись не подтверждена!");
+            info.exec();
+        }
     }
     else
     {
-        QMessageBox info;
         info.setText("Данные введены не верно!");
         info.exec();
     }

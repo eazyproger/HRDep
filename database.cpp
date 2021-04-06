@@ -7,10 +7,12 @@
 #include <QDate>
 #include "QMessageBox"
 #include "registration.h"
+#include <QStyle>
+#include "authorization.h"
 
 
 QList<User *> Database::userList;
-const QString Database::DATABASE = "db2.dat";
+const QString Database::DATABASE = "db3.dat";
 
 void Database::openDatabase()
 {
@@ -23,6 +25,7 @@ void Database::openDatabase()
             User *user = new User();
             stream >> user->login
                     >> user->password
+                    >> user->levelAccess
                     >> user->name
                     >> user->surname
                     >> user->lastName
@@ -62,9 +65,12 @@ void Database::addNewUser(QString login, QString pass)
     }
     else
     {
-        QMessageBox info;
-        info.setText("Данный логин занят!");
+        QMessageBox info(QMessageBox::NoIcon, "Информация",
+                         "Данный логин занят!");
+        info.setWindowIcon(info.style()->standardIcon(QStyle::SP_MessageBoxInformation));
         info.exec();
+        Authorization w;
+        w.exec();
     }
 
 }
@@ -73,7 +79,31 @@ void Database::addNewUser(QString login, QString pass)
 
 void Database::updateDatabase()
 {
-
+    QFile db(DATABASE);
+    if (db.open(QIODevice::WriteOnly))
+    {
+        QDataStream stream(&db);
+        for (int i = 0; i < userList.length(); i++)
+        {
+            stream << userList[i]->login
+                    << userList[i]->password
+                    << userList[i]->levelAccess
+                    << userList[i]->name
+                    << userList[i]->surname
+                    << userList[i]->lastName
+                    << userList[i]->personalNumber
+                    << userList[i]->birthday
+                    << userList[i]->education
+                    << userList[i]->profession
+                    << userList[i]->post
+                    << userList[i]->divisionNumber
+                    << userList[i]->marritalStatus
+                    << userList[i]->numberOfChildren
+                    << userList[i]->divisionName
+                    << userList[i]->director;
+        }
+        db.close();
+    }
 }
 
 void Database::addNewUserIntoDatabase()
@@ -85,6 +115,7 @@ void Database::addNewUserIntoDatabase()
         QDataStream stream(&db);
             stream << user->login
                     << user->password
+                    << user->levelAccess
                     << user->name
                     << user->surname
                     << user->lastName
@@ -102,17 +133,40 @@ void Database::addNewUserIntoDatabase()
     }
 }
 
-bool Database::userIsExists(QString login, QString pass)
+int Database::userIsExists(QString login, QString pass)
 {
+    //если найден возращает уровень доступа, иначе -1
     for (int i = 0; i < userList.length(); i++)
     {
         if (userList[i]->login == login)
         {
             if (userList[i]->password == pass)
             {
-                return true;
+                return userList[i]->levelAccess;
             }
         }
     }
-    return false;
+    return -1;
+}
+
+User* Database::getUser(QString login)
+{
+    for (int i = 0; i < userList.length(); i++)
+    {
+        if (userList[i]->login == login)
+        {
+                return userList[i];
+        }
+    }
+}
+
+void Database::updateUser(User *user)
+{
+    for (int i = 0; i < userList.length(); i++)
+    {
+        if (userList[i]->login == user->login)
+        {
+                userList[i] = user;
+        }
+    }
 }

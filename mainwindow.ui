@@ -6,84 +6,318 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
-    <height>335</height>
+    <width>516</width>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QTableWidget" name="mainTable"/>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="userMenu">
+       <attribute name="title">
+        <string>Меню пользователя</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="2" column="3">
+         <widget class="QPushButton" name="saveChanges">
+          <property name="text">
+           <string>Сохранить изменения</string>
+          </property>
+         </widget>
+        </item>
+        <item row="21" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Профессия</string>
+          </property>
+         </widget>
+        </item>
+        <item row="28" column="2">
+         <widget class="QSpinBox" name="numberOfChildren"/>
+        </item>
+        <item row="12" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Личный номер</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLineEdit" name="surname"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label">
+          <property name="inputMethodHints">
+           <set>Qt::ImhNone</set>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Фамилия&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="textInteractionFlags">
+           <set>Qt::LinksAccessibleByMouse</set>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLineEdit" name="lastName"/>
+        </item>
+        <item row="23" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Семейное положение</string>
+          </property>
+         </widget>
+        </item>
+        <item row="28" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Количество детей</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLineEdit" name="name"/>
+        </item>
+        <item row="19" column="2">
+         <widget class="QLineEdit" name="post"/>
+        </item>
+        <item row="8" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Отчество</string>
+          </property>
+         </widget>
+        </item>
+        <item row="29" column="2">
+         <widget class="QLineEdit" name="divisionName"/>
+        </item>
+        <item row="23" column="2">
+         <widget class="QComboBox" name="marritalStatus"/>
+        </item>
+        <item row="8" column="3">
+         <widget class="QPushButton" name="changePassword">
+          <property name="text">
+           <string>Сменить пароль</string>
+          </property>
+         </widget>
+        </item>
+        <item row="21" column="2">
+         <widget class="QLineEdit" name="profession">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QPushButton" name="requestCertificate">
+          <property name="text">
+           <string>Заказать справку</string>
+          </property>
+         </widget>
+        </item>
+        <item row="29" column="1">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Название подразделения</string>
+          </property>
+         </widget>
+        </item>
+        <item row="19" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Должность</string>
+          </property>
+         </widget>
+        </item>
+        <item row="30" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Руководитель</string>
+          </property>
+         </widget>
+        </item>
+        <item row="22" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Номер подразделения</string>
+          </property>
+         </widget>
+        </item>
+        <item row="18" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Образование</string>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="2">
+         <widget class="QDateEdit" name="birthday"/>
+        </item>
+        <item row="12" column="2">
+         <widget class="QLineEdit" name="personalNumber"/>
+        </item>
+        <item row="5" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Имя</string>
+          </property>
+         </widget>
+        </item>
+        <item row="22" column="2">
+         <widget class="QLineEdit" name="divisionNumber">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="18" column="2">
+         <widget class="QLineEdit" name="education"/>
+        </item>
+        <item row="30" column="2">
+         <widget class="QLineEdit" name="director"/>
+        </item>
+        <item row="14" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Дата рождения</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="hrMenu">
+       <attribute name="title">
+        <string>Меню работника отдела кадров</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab_4">
+           <attribute name="title">
+            <string>Подтвержденные пользователи</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <item>
+                 <widget class="QPushButton" name="pushButton_2">
+                  <property name="text">
+                   <string>Изменить данные</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_4">
+                  <property name="text">
+                   <string>Уволить</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="mainTable"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_5">
+           <attribute name="title">
+            <string>Неподтвержденные пользователи</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QPushButton" name="pushButton_5">
+                  <property name="text">
+                   <string>Подтвердить</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_6">
+                  <property name="text">
+                   <string>Удалить</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="mainTable_2"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="adminMenu">
+       <attribute name="title">
+        <string>Меню администратора</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QPushButton" name="pushButton_7">
+              <property name="text">
+               <string>Повысить уровень доступа</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_8">
+              <property name="text">
+               <string>Понизить уровень доступа</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="mainTable_3"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>RightToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="addWorker"/>
-   <addaction name="editWorker"/>
-   <addaction name="deleteWorker"/>
    <addaction name="logOut"/>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>413</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>Меню</string>
-    </property>
-    <addaction name="addWorker"/>
-    <addaction name="editWorker"/>
-    <addaction name="deleteWorker"/>
-    <addaction name="separator"/>
-    <addaction name="logOut"/>
-   </widget>
-   <addaction name="menu"/>
-  </widget>
-  <action name="addWorker">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/img/icon/add.png</normaloff>:/img/icon/add.png</iconset>
-   </property>
-   <property name="text">
-    <string>Нанять работника</string>
-   </property>
-  </action>
-  <action name="editWorker">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/img/icon/edit.png</normaloff>:/img/icon/edit.png</iconset>
-   </property>
-   <property name="text">
-    <string>Изменить данные</string>
-   </property>
-  </action>
-  <action name="deleteWorker">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/img/icon/delete.png</normaloff>:/img/icon/delete.png</iconset>
-   </property>
-   <property name="text">
-    <string>Уволить работника</string>
-   </property>
-  </action>
   <action name="logOut">
    <property name="icon">
     <iconset resource="resources.qrc">

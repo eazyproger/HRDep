@@ -10,6 +10,7 @@ public:
     User(QString login, QString pass);
     QString login;
     QString password;
+    qint16 levelAccess;
     QString name;
     QString surname;
     QString lastName;
@@ -19,7 +20,7 @@ public:
     QString profession;
     QString post;
     qint16 divisionNumber;
-    QString marritalStatus;
+    bool marritalStatus;
     qint16 numberOfChildren;
     QString divisionName;
     QString director;

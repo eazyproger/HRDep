@@ -13,10 +13,12 @@ User::User(QString login, QString pass)
     if (Database::userList.length()>0)
     {
         this->personalNumber = Database::userList.last()->personalNumber + 1;
+        this->levelAccess = 0;
     }
     else
     {
-        this->personalNumber = 0;
+        this->levelAccess = 3;
+        this->personalNumber = 1;
     }
     this->post = "Не указана";
     this->divisionNumber = 0;

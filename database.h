@@ -14,7 +14,9 @@ public:
     static void addNewUser(QString login, QString pass);
     static void updateDatabase();
     static void addNewUserIntoDatabase();
-    static bool userIsExists(QString login, QString pass);
+    static int userIsExists(QString login, QString pass);
+    static User* getUser(QString login);
+    static void updateUser(User *user);
 };
 
 #endif // DATABASE_H

@@ -20,6 +20,8 @@ private slots:
 
     void on_okCancelRegistration_rejected();
 
+    void on_lastName_textChanged(const QString &arg1);
+
 private:
     Ui::Registration *ui;
 };

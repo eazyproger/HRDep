@@ -10,26 +10,29 @@ CONFIG += c++11
 
 SOURCES += \
     authorization.cpp \
+    changepassword.cpp \
     database.cpp \
     main.cpp \
     mainwindow.cpp \
     registration.cpp \
-    user.cpp \
-    userwindow.cpp
+    requestcertificate.cpp \
+    user.cpp
 
 HEADERS += \
     authorization.h \
+    changepassword.h \
     database.h \
     mainwindow.h \
     registration.h \
-    user.h \
-    userwindow.h
+    requestcertificate.h \
+    user.h
 
 FORMS += \
     authorization.ui \
+    changepassword.ui \
     mainwindow.ui \
     registration.ui \
-    userwindow.ui
+    requestcertificate.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

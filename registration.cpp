@@ -13,7 +13,6 @@ Registration::Registration(QWidget *parent) :
     this->setWindowIcon(QIcon(":/img/icon/edit.png"));
     this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // убрал вопрос
     ui->marritalStatus->addItem("");
-    ui->marritalStatus->addItem("Холост");
 }
 
 Registration::~Registration()
@@ -34,11 +33,26 @@ void Registration::on_okCancelRegistration_accepted()
         newUser->birthday = ui->birthday->date();
         newUser->education = ui->education->text();
         newUser->profession = ui->profession->text();
-        newUser->marritalStatus = ui->marritalStatus->currentText();
+        if(ui->marritalStatus->currentText()=="Женат" || ui->marritalStatus->currentText()=="Замужем")
+        {
+            newUser->marritalStatus = true;
+        }
+        else
+        {
+            newUser->marritalStatus = false;
+        }
         newUser->numberOfChildren = ui->numberOfChildren->value();
         Database::addNewUserIntoDatabase();
-        QMessageBox info;
-        info.setText("Вы успешно зарегистрировались! Дождитесь подтверждения учетной записи работником отдела кадров.");
+        QMessageBox info(QMessageBox::NoIcon, "Информация","");
+        info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+        if (Database::userList.length()==1)
+        {
+            info.setText("Вы успешно зарегистрировались!");
+        }
+        else
+        {
+            info.setText("Вы успешно зарегистрировались! Дождитесь подтверждения учетной записи работником отдела кадров.");
+        }
         info.exec();
         this->close();
         Authorization w;
@@ -46,8 +60,9 @@ void Registration::on_okCancelRegistration_accepted()
     }
     else
     {
-        QMessageBox info;
-        info.setText("Не все поля заполнены!");
+        QMessageBox info(QMessageBox::NoIcon, "Информация",
+                         "Не все поля заполнены!");
+        info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
         info.exec();
     }
 }
@@ -56,4 +71,20 @@ void Registration::on_okCancelRegistration_rejected()
 {
     Database::userList.removeLast();
     this->close();
+}
+
+void Registration::on_lastName_textChanged(const QString &arg1)
+{
+    if(ui->lastName->text().right(3)=="вич")
+    {
+        ui->marritalStatus->clear();
+        ui->marritalStatus->addItem("Женат");
+        ui->marritalStatus->addItem("Холост");
+    }
+    else if(ui->lastName->text().right(3)=="вна")
+    {
+        ui->marritalStatus->clear();
+        ui->marritalStatus->addItem("Замужем");
+        ui->marritalStatus->addItem("Не замужем");
+    }
 }
