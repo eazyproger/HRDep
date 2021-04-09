@@ -11,7 +11,7 @@ ChangePassword::ChangePassword(User *user, QWidget *parent) :
     this->user = user;
     this->setWindowTitle("Изменение пароля");
     this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-    this->setWindowIcon(style()->standardIcon(QStyle::QStyle::SP_VistaShield));
+    this->setWindowIcon(style()->standardIcon(QStyle::SP_VistaShield));
 }
 
 ChangePassword::~ChangePassword()
@@ -19,12 +19,12 @@ ChangePassword::~ChangePassword()
     delete ui;
 }
 
-void ChangePassword::on_buttonBox_rejected()
+void ChangePassword::on_okCancelButton_rejected()
 {
     this->close();
 }
 
-void ChangePassword::on_buttonBox_accepted()
+void ChangePassword::on_okCancelButton_accepted()
 {
     if (this->user->password == ui->oldPassword->text())
     {

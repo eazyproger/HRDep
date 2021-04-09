@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTableWidget>
 #include "user.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,9 +30,22 @@ private slots:
 
     void on_requestCertificate_clicked();
 
+    void on_editUser_clicked();
+
+    void on_userTable_cellClicked(int row, int column);
+
+    void on_userTable_cellDoubleClicked(int row, int column);
+
+    void on_deleteUser_clicked();
+
 private:
     Ui::MainWindow *ui;
     User *currentUser;
+    QList <User*> userList;
+    void initUserMenu();
+    void initHRMenu();
+    void initAdminMenu();
+    void resizeTable(QTableWidget *userTable);
 
 };
 #endif // MAINWINDOW_H

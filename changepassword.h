@@ -18,9 +18,9 @@ public:
     ~ChangePassword();
 
 private slots:
-    void on_buttonBox_rejected();
+    void on_okCancelButton_rejected();
 
-    void on_buttonBox_accepted();
+    void on_okCancelButton_accepted();
 
 private:
     Ui::ChangePassword *ui;

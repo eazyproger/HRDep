@@ -8,6 +8,8 @@ class User
 public:
     User();
     User(QString login, QString pass);
+    QString getItem(int i);
+
     QString login;
     QString password;
     qint16 levelAccess;

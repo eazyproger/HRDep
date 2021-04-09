@@ -17,6 +17,7 @@ public:
     static int userIsExists(QString login, QString pass);
     static User* getUser(QString login);
     static void updateUser(User *user);
+    static void deleteUser(int index);
 };
 
 #endif // DATABASE_H

@@ -170,3 +170,9 @@ void Database::updateUser(User *user)
         }
     }
 }
+
+void Database::deleteUser(int index)
+{
+    userList.removeAt(index);
+    updateDatabase();
+}

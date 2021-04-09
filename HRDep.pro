@@ -12,6 +12,7 @@ SOURCES += \
     authorization.cpp \
     changepassword.cpp \
     database.cpp \
+    editwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     registration.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     authorization.h \
     changepassword.h \
     database.h \
+    editwindow.h \
     mainwindow.h \
     registration.h \
     requestcertificate.h \
@@ -30,6 +32,8 @@ HEADERS += \
 FORMS += \
     authorization.ui \
     changepassword.ui \
+    editwindow.ui \
+    editwindow.ui \
     mainwindow.ui \
     registration.ui \
     requestcertificate.ui
