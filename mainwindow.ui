@@ -254,14 +254,14 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_4">
                 <item>
-                 <widget class="QPushButton" name="pushButton_5">
+                 <widget class="QPushButton" name="verificateUser">
                   <property name="text">
                    <string>Подтвердить</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_6">
+                 <widget class="QPushButton" name="deleteUser_2">
                   <property name="text">
                    <string>Удалить</string>
                   </property>
@@ -270,7 +270,11 @@
                </layout>
               </item>
               <item>
-               <widget class="QTableWidget" name="unConfirmUserTable"/>
+               <widget class="QTableWidget" name="unVerificateUserTable">
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>

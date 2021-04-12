@@ -38,6 +38,12 @@ private slots:
 
     void on_deleteUser_clicked();
 
+    void on_unVerificateUserTable_cellClicked(int row, int column);
+
+    void on_verificateUser_clicked();
+
+    void on_deleteUser_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     User *currentUser;

@@ -36,16 +36,7 @@ QString User::getItem(int i)
     case 2:
         return this->lastName;
     case 3:
-    {
-        if(this->divisionNumber!=0)
-        {
-           return QString::number(this->divisionNumber);
-        }
-        else
-        {
-           return "Не указан";
-        }
-    }
+        return QString::number(this->personalNumber);
     case 4:
         return this->birthday.toString();
     case 5:

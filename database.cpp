@@ -149,7 +149,18 @@ int Database::userIsExists(QString login, QString pass)
     return -1;
 }
 
-User* Database::getUser(QString login)
+User* Database::getUser(qint16 personalNumber)
+{
+    for (int i = 0; i < userList.length(); i++)
+    {
+        if (userList[i]->personalNumber == personalNumber)
+        {
+                return userList[i];
+        }
+    }
+}
+
+User *Database::getUser(QString login)
 {
     for (int i = 0; i < userList.length(); i++)
     {
@@ -171,8 +182,8 @@ void Database::updateUser(User *user)
     }
 }
 
-void Database::deleteUser(int index)
+void Database::deleteUser(qint16 personalNumber)
 {
-    userList.removeAt(index);
+    userList.removeOne(getUser(personalNumber));
     updateDatabase();
 }

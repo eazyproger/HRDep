@@ -26,15 +26,13 @@ MainWindow::MainWindow(User *currentUser, QWidget *parent)
         initHRMenu();
         ui->editUser->setEnabled(false);
         ui->deleteUser->setEnabled(false);
+        ui->verificateUser->setEnabled(false);
+        ui->deleteUser_2->setEnabled(false);
     }
     if (currentUser->levelAccess==3)
     {
         initAdminMenu();
     }
-
-
-
-
 }
 
 MainWindow::~MainWindow()
@@ -60,7 +58,6 @@ void MainWindow::updateCurrentUser()
         currentUser->marritalStatus = false;
     }
     currentUser->numberOfChildren = ui->numberOfChildren->value();
-
 }
 
 
@@ -178,10 +175,17 @@ void MainWindow::initUserMenu()
 
 void MainWindow::initHRMenu()
 {
+    ui->userTable->clear();
+    ui->unVerificateUserTable->clear();
+    ui->userTable->setRowCount(0);
+    ui->unVerificateUserTable->setRowCount(0);
     ui->tabWidget->setTabVisible(1,true);
     ui->userTable->setColumnCount(13);
+    ui->unVerificateUserTable->setColumnCount(13);
     ui->userTable->horizontalHeader()->setHighlightSections(false);
     ui->userTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->unVerificateUserTable->horizontalHeader()->setHighlightSections(false);
+    ui->unVerificateUserTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     QStringList columnsNames;
     columnsNames.append(QString("Фамилия"));
@@ -198,17 +202,33 @@ void MainWindow::initHRMenu()
     columnsNames.append(QString("Название\nподразделения"));
     columnsNames.append(QString("Руководитель"));
     ui->userTable->setHorizontalHeaderLabels(columnsNames);
-    ui->userTable->setRowCount(this->userList.length());
+    ui->unVerificateUserTable->setHorizontalHeaderLabels(columnsNames);
     for(int i = 0; i < this->userList.length(); i++)
     {
-        for (int j = 0; j < ui->userTable->columnCount(); j++)
+        if (this->userList[i]->levelAccess!=0)
         {
-            QTableWidgetItem *newItem = new QTableWidgetItem(userList[i]->getItem(j));
-            newItem->setTextAlignment(Qt::AlignCenter);
-            ui->userTable->setItem(i, j , newItem);
+            ui->userTable->insertRow(ui->userTable->rowCount());
+            for (int j = 0; j < ui->userTable->columnCount(); j++)
+            {
+                QTableWidgetItem *newItem = new QTableWidgetItem(userList[i]->getItem(j));
+                newItem->setTextAlignment(Qt::AlignCenter);
+                ui->userTable->setItem(ui->userTable->rowCount()-1, j , newItem);
+            }
+        }
+        else
+        {
+            ui->unVerificateUserTable->insertRow(ui->unVerificateUserTable->rowCount());
+            for (int j = 0; j < ui->unVerificateUserTable->columnCount(); j++)
+            {
+                QTableWidgetItem *newItem = new QTableWidgetItem(userList[i]->getItem(j));
+                newItem->setTextAlignment(Qt::AlignCenter);
+                ui->unVerificateUserTable->setItem(ui->unVerificateUserTable->rowCount()-1, j , newItem);
+            }
         }
     }
     resizeTable(ui->userTable);
+    resizeTable(ui->unVerificateUserTable);
+
 }
 
 void MainWindow::initAdminMenu()
@@ -226,7 +246,9 @@ void MainWindow::resizeTable(QTableWidget *userTable)
 
 void MainWindow::on_editUser_clicked()
 {
-    EditWindow *editWindow = new EditWindow(userList[ui->userTable->currentRow()]);
+    ui->editUser->setEnabled(false);
+    ui->deleteUser->setEnabled(false);
+    EditWindow *editWindow = new EditWindow(Database::getUser(ui->userTable->item(ui->userTable->currentRow(), 3)->text().toInt()));
     editWindow->exec();
     initHRMenu();
 }
@@ -239,9 +261,9 @@ void MainWindow::on_userTable_cellClicked(int row, int column)
 
 void MainWindow::on_userTable_cellDoubleClicked(int row, int column)
 {
-    ui->editUser->setEnabled(true);
-    ui->deleteUser->setEnabled(true);
-    EditWindow *editWindow = new EditWindow(userList[ui->userTable->currentRow()]);
+    ui->editUser->setEnabled(false);
+    ui->deleteUser->setEnabled(false);
+    EditWindow *editWindow = new EditWindow(Database::getUser(ui->userTable->item(ui->userTable->currentRow(), 3)->text().toInt()));
     editWindow->exec();
     initHRMenu();
 }
@@ -250,13 +272,17 @@ void MainWindow::on_deleteUser_clicked()
 {
     if (currentUser != userList[ui->userTable->currentRow()])
     {
-        if (currentUser->personalNumber!=0)
+        if (userList[ui->userTable->currentRow()]->personalNumber!=0)
         {
-        Database::deleteUser(ui->userTable->currentRow());
+        Database::deleteUser(ui->userTable->currentRow()); //не работает
         QMessageBox info(QMessageBox::NoIcon, "Информация",
                          "Работник уволен!");
         info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
         info.exec();
+        userList = Database::userList;
+        ui->editUser->setEnabled(false);
+        ui->deleteUser->setEnabled(false);
+        initHRMenu();
         }
         else
         {
@@ -273,4 +299,36 @@ void MainWindow::on_deleteUser_clicked()
         info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
         info.exec();
     }
+}
+
+void MainWindow::on_unVerificateUserTable_cellClicked(int row, int column)
+{
+    ui->verificateUser->setEnabled(true);
+    ui->deleteUser_2->setEnabled(true);
+}
+
+void MainWindow::on_verificateUser_clicked()
+{
+    Database::getUser(ui->unVerificateUserTable->item(ui->unVerificateUserTable->currentRow(), 3)->text().toInt())->levelAccess++;
+    Database::updateDatabase();
+    QMessageBox info(QMessageBox::NoIcon, "Информация",
+                     "Пользователь подтвержден!");
+    info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+    info.exec();
+    ui->verificateUser->setEnabled(false);
+    ui->deleteUser_2->setEnabled(false);
+    initHRMenu();
+}
+
+void MainWindow::on_deleteUser_2_clicked()
+{
+    Database::deleteUser(ui->unVerificateUserTable->item(ui->unVerificateUserTable->currentRow(), 3)->text().toInt());
+    QMessageBox info(QMessageBox::NoIcon, "Информация",
+                     "Пользователь удален!");
+    info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+    info.exec();
+    userList = Database::userList;
+    ui->verificateUser->setEnabled(false);
+    ui->deleteUser_2->setEnabled(false);
+    initHRMenu();
 }

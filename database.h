@@ -15,9 +15,10 @@ public:
     static void updateDatabase();
     static void addNewUserIntoDatabase();
     static int userIsExists(QString login, QString pass);
-    static User* getUser(QString login);
+    static User* getUser(qint16 personalNumber);
+    static User *getUser(QString login);
     static void updateUser(User *user);
-    static void deleteUser(int index);
+    static void deleteUser(qint16 personalNumber);
 };
 
 #endif // DATABASE_H
