@@ -44,6 +44,12 @@ private slots:
 
     void on_deleteUser_2_clicked();
 
+    void on_upLevelAccess_clicked();
+
+    void on_copyUserTable_cellClicked(int row, int column);
+
+    void on_downLevelAccess_clicked();
+
 private:
     Ui::MainWindow *ui;
     User *currentUser;

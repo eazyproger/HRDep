@@ -28,10 +28,12 @@ MainWindow::MainWindow(User *currentUser, QWidget *parent)
         ui->deleteUser->setEnabled(false);
         ui->verificateUser->setEnabled(false);
         ui->deleteUser_2->setEnabled(false);
-    }
-    if (currentUser->levelAccess==3)
-    {
-        initAdminMenu();
+        if (currentUser->levelAccess==3)
+        {
+            ui->upLevelAccess->setEnabled(false);
+            ui->downLevelAccess->setEnabled(false);
+            initAdminMenu();
+        }
     }
 }
 
@@ -66,9 +68,12 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     this->showNormal();
     if (index>0)
     {
-
         this->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         this->showMaximized();
+    }
+    if (index == 2)
+    {
+        initAdminMenu();
     }
 }
 void MainWindow::on_logOut_triggered()
@@ -176,6 +181,8 @@ void MainWindow::initUserMenu()
 void MainWindow::initHRMenu()
 {
     ui->userTable->clear();
+    ui->userTable->setSortingEnabled(true);
+    ui->unVerificateUserTable->setSortingEnabled(true);
     ui->unVerificateUserTable->clear();
     ui->userTable->setRowCount(0);
     ui->unVerificateUserTable->setRowCount(0);
@@ -228,12 +235,41 @@ void MainWindow::initHRMenu()
     }
     resizeTable(ui->userTable);
     resizeTable(ui->unVerificateUserTable);
-
 }
 
 void MainWindow::initAdminMenu()
 {
     ui->tabWidget->setTabVisible(2,true);
+    ui->copyUserTable->setSortingEnabled(true);
+    ui->copyUserTable->setRowCount(ui->userTable->rowCount());
+    ui->copyUserTable->setColumnCount(ui->userTable->columnCount());
+    ui->copyUserTable->horizontalHeader()->setHighlightSections(false);
+    ui->copyUserTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    QStringList columnsNames;
+    columnsNames.append(QString("Фамилия"));
+    columnsNames.append(QString("Имя"));
+    columnsNames.append(QString("Отчество"));
+    columnsNames.append(QString("Личный\nномер"));
+    columnsNames.append(QString("Дата\nрождения"));
+    columnsNames.append(QString("Образование"));
+    columnsNames.append(QString("Профессия"));
+    columnsNames.append(QString("Должность"));
+    columnsNames.append(QString("Номер\nподразделения"));
+    columnsNames.append(QString("Семейное\nположение"));
+    columnsNames.append(QString("Количество\nдетей"));
+    columnsNames.append(QString("Название\nподразделения"));
+    columnsNames.append(QString("Руководитель"));
+    ui->copyUserTable->setHorizontalHeaderLabels(columnsNames);
+    for (int i = 0; i < ui->userTable->rowCount(); i++)
+    {
+        for (int j = 0; j < ui->userTable->columnCount(); j++)
+        {
+            QTableWidgetItem *newItem = new QTableWidgetItem(ui->userTable->item(i,j)->text());
+            newItem->setTextAlignment(Qt::AlignCenter);
+            ui->copyUserTable->setItem(i,j, newItem);
+        }
+    }
+    resizeTable(ui->copyUserTable);
 }
 
 void MainWindow::resizeTable(QTableWidget *userTable)
@@ -272,9 +308,9 @@ void MainWindow::on_deleteUser_clicked()
 {
     if (currentUser != userList[ui->userTable->currentRow()])
     {
-        if (userList[ui->userTable->currentRow()]->personalNumber!=0)
+        if (userList[ui->userTable->currentRow()]->levelAccess<=currentUser->levelAccess)
         {
-        Database::deleteUser(ui->userTable->currentRow()); //не работает
+        Database::deleteUser(ui->userTable->item(ui->userTable->currentRow(), 3)->text().toInt());
         QMessageBox info(QMessageBox::NoIcon, "Информация",
                          "Работник уволен!");
         info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
@@ -331,4 +367,68 @@ void MainWindow::on_deleteUser_2_clicked()
     ui->verificateUser->setEnabled(false);
     ui->deleteUser_2->setEnabled(false);
     initHRMenu();
+}
+
+void MainWindow::on_upLevelAccess_clicked()
+{
+    User *curUser = Database::getUser(ui->copyUserTable->item(ui->copyUserTable->currentRow(), 3)->text().toInt());
+    if (curUser->levelAccess < 3)
+    {
+        curUser->levelAccess++;
+        Database::updateDatabase();
+        QMessageBox info(QMessageBox::NoIcon, "Информация",
+                         "Уровень доступа пользователя повышен!");
+        info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+        info.exec();
+        initAdminMenu();
+    }
+    else
+    {
+        QMessageBox info(QMessageBox::NoIcon, "Информация",
+                         "У данного пользователя максимальный уровень доступа!");
+        info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+        info.exec();
+    }
+    ui->upLevelAccess->setEnabled(false);
+    ui->downLevelAccess->setEnabled(false);
+}
+
+void MainWindow::on_copyUserTable_cellClicked(int row, int column)
+{
+    ui->upLevelAccess->setEnabled(true);
+    ui->downLevelAccess->setEnabled(true);
+}
+
+void MainWindow::on_downLevelAccess_clicked()
+{
+    User *curUser = Database::getUser(ui->copyUserTable->item(ui->copyUserTable->currentRow(), 3)->text().toInt());
+    if (curUser->levelAccess > 1)
+    {
+        if (currentUser!=curUser)
+        {
+            curUser->levelAccess--;
+            Database::updateDatabase();
+            QMessageBox info(QMessageBox::NoIcon, "Информация",
+                             "Уровень доступа пользователя понижен!");
+            info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+            info.exec();
+            initAdminMenu();
+        }
+        else
+        {
+            QMessageBox info(QMessageBox::NoIcon, "Информация",
+                             "Вы не можете повысить самого себя!");
+            info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+            info.exec();
+        }
+    }
+    else
+    {
+        QMessageBox info(QMessageBox::NoIcon, "Информация",
+                         "У данного пользователя минимальный уровень доступа!");
+        info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+        info.exec();
+    }
+    ui->upLevelAccess->setEnabled(false);
+    ui->downLevelAccess->setEnabled(false);
 }
