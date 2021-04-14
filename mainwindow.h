@@ -50,6 +50,14 @@ private slots:
 
     void on_downLevelAccess_clicked();
 
+    void on_search_clicked();
+
+    void on_reset_clicked();
+
+    void on_search_2_clicked();
+
+    void on_reset_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     User *currentUser;

@@ -432,3 +432,66 @@ void MainWindow::on_downLevelAccess_clicked()
     ui->upLevelAccess->setEnabled(false);
     ui->downLevelAccess->setEnabled(false);
 }
+
+void MainWindow::on_search_clicked()
+{
+    QTableWidget *curTable;
+    if (ui->mainTable->currentIndex()==0)
+    {
+        curTable = ui->userTable;
+    }
+    else
+    {
+        curTable = ui->unVerificateUserTable;
+    }
+    bool itemSearched;
+    for (int i = curTable->rowCount() - 1; i >= 0; i--)
+    {
+        itemSearched = false;
+        for (int j = 0; j < curTable->columnCount(); j++)
+        {
+            if (curTable->item(i,j)->text().contains(ui->searchText->text(), Qt::CaseInsensitive))
+            {
+                itemSearched = true;
+                break;
+            }
+        }
+        if (!itemSearched)
+        {
+            curTable->removeRow(i);
+        }
+    }
+}
+
+void MainWindow::on_reset_clicked()
+{
+    initHRMenu();
+    ui->searchText->setText("");
+}
+
+void MainWindow::on_search_2_clicked()
+{
+    bool itemSearched;
+    for (int i = ui->copyUserTable->rowCount() - 1; i >= 0; i--)
+    {
+        itemSearched = false;
+        for (int j = 0; j < ui->copyUserTable->columnCount(); j++)
+        {
+            if (ui->copyUserTable->item(i,j)->text().contains(ui->searchText_2->text(), Qt::CaseInsensitive))
+            {
+                itemSearched = true;
+                break;
+            }
+        }
+        if (!itemSearched)
+        {
+            ui->copyUserTable->removeRow(i);
+        }
+    }
+}
+
+void MainWindow::on_reset_2_clicked()
+{
+    initAdminMenu();
+    ui->searchText_2->setText("");
+}
