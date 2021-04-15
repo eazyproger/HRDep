@@ -12,7 +12,9 @@
 
 
 QList<User *> Database::userList;
+QList<QStringList> Database::certificateList;
 const QString Database::DATABASE = "db3.dat";
+const QString Database::CERTIFICATES = "certificates.dat";
 
 void Database::openDatabase()
 {
@@ -186,4 +188,59 @@ void Database::deleteUser(qint16 personalNumber)
 {
     userList.removeOne(getUser(personalNumber));
     updateDatabase();
+}
+
+void Database::addCertificate(QString login, QString certificateType)
+{
+    QFile file(CERTIFICATES);
+    if (file.open(QIODevice::Append))
+    {
+        QDataStream stream(&file);
+            stream << login << certificateType;
+        file.close();
+    }
+}
+
+QList<QStringList> Database::getCetificateList()
+{
+    certificateList.clear();
+    QFile file(CERTIFICATES);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QDataStream stream(&file);
+        for(int i = 0; !stream.atEnd(); i++)
+        {
+            QStringList note;
+            QString buff;
+            stream >> buff;
+            note.append(buff);
+            stream >> buff;
+            note.append(buff);
+            certificateList.append(note);
+        }
+        file.close();
+    }
+    return certificateList;
+}
+
+void Database::deleteCertificate(QString login, QString certificateType)
+{
+    for (int i = 0; i < certificateList.length(); i++)
+    {
+        if (certificateList[i][0]==login && certificateList[i][1]==certificateType)
+        {
+            certificateList.removeAt(i);
+            break;
+        }
+    }
+    QFile file(CERTIFICATES);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QDataStream stream(&file);
+        for (int i = 0; i < certificateList.length(); i++)
+        {
+            stream << certificateList[i][0] << certificateList[i][1];
+        }
+        file.close();
+    }
 }

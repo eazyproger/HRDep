@@ -1,14 +1,15 @@
 #include "requestcertificate.h"
 #include "ui_requestcertificate.h"
-
+#include "database.h"
 #include <QMessageBox>
 #include <QStyle>
 
-RequestCertificate::RequestCertificate(QWidget *parent) :
+RequestCertificate::RequestCertificate(User *user, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RequestCertificate)
 {
     ui->setupUi(this);
+    this->currentUser = user;
     this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     this->setWindowTitle("Заказ справки");
     this->setWindowIcon(style()->standardIcon(QStyle::SP_FileIcon));
@@ -28,7 +29,7 @@ void RequestCertificate::on_buttonBox_rejected()
 
 void RequestCertificate::on_buttonBox_accepted()
 {
-    //добавить работу со справками
+    Database::addCertificate(currentUser->login, ui->certificateType->currentText());
     QMessageBox info(QMessageBox::NoIcon, "Информация",
                      "Справка успешно заказана. Для ее получения обратитесь к сотруднику отдела кадров.");
     info.setWindowIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));

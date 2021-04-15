@@ -28,6 +28,7 @@ MainWindow::MainWindow(User *currentUser, QWidget *parent)
         ui->deleteUser->setEnabled(false);
         ui->verificateUser->setEnabled(false);
         ui->deleteUser_2->setEnabled(false);
+        ui->deleteCertificate->setEnabled(false);
         if (currentUser->levelAccess==3)
         {
             ui->upLevelAccess->setEnabled(false);
@@ -104,8 +105,9 @@ void MainWindow::on_saveChanges_clicked()
 
 void MainWindow::on_requestCertificate_clicked()
 {
-        RequestCertificate w;
+        RequestCertificate w(currentUser);
         w.exec();
+        initHRMenu();
 }
 
 
@@ -180,17 +182,19 @@ void MainWindow::initUserMenu()
 
 void MainWindow::initHRMenu()
 {
+    ui->tabWidget->setTabVisible(1,true);
+
     ui->userTable->clear();
     ui->userTable->setSortingEnabled(true);
-    ui->unVerificateUserTable->setSortingEnabled(true);
-    ui->unVerificateUserTable->clear();
     ui->userTable->setRowCount(0);
-    ui->unVerificateUserTable->setRowCount(0);
-    ui->tabWidget->setTabVisible(1,true);
     ui->userTable->setColumnCount(13);
-    ui->unVerificateUserTable->setColumnCount(13);
     ui->userTable->horizontalHeader()->setHighlightSections(false);
     ui->userTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    ui->unVerificateUserTable->clear();
+    ui->unVerificateUserTable->setSortingEnabled(true);
+    ui->unVerificateUserTable->setRowCount(0);
+    ui->unVerificateUserTable->setColumnCount(13);
     ui->unVerificateUserTable->horizontalHeader()->setHighlightSections(false);
     ui->unVerificateUserTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -235,6 +239,32 @@ void MainWindow::initHRMenu()
     }
     resizeTable(ui->userTable);
     resizeTable(ui->unVerificateUserTable);
+
+
+    ui->certificates->clear();
+    ui->certificates->setSortingEnabled(true);
+    ui->certificates->setRowCount(0);
+    ui->certificates->setColumnCount(14);
+    ui->certificates->horizontalHeader()->setHighlightSections(false);
+    ui->certificates->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    columnsNames.append("Тип справки");
+    ui->certificates->setHorizontalHeaderLabels(columnsNames);
+    QList<QStringList> certificateList = Database::getCetificateList();
+    ui->certificates->setRowCount(certificateList.length());
+    for (int i = 0; i < certificateList.length(); i++)
+    {
+        User *user = Database::getUser(certificateList[i][0]);
+        for (int j = 0; j < ui->certificates->columnCount()-1; j++)
+        {
+            QTableWidgetItem *newItem = new QTableWidgetItem(user->getItem(j));
+            newItem->setTextAlignment(Qt::AlignCenter);
+            ui->certificates->setItem(i, j , newItem);
+        }
+        QTableWidgetItem *newItem = new QTableWidgetItem(certificateList[i][1]);
+        newItem->setTextAlignment(Qt::AlignCenter);
+        ui->certificates->setItem(i, 13 , newItem);
+    }
+    resizeTable(ui->certificates);
 }
 
 void MainWindow::initAdminMenu()
@@ -494,4 +524,28 @@ void MainWindow::on_reset_2_clicked()
 {
     initAdminMenu();
     ui->searchText_2->setText("");
+}
+
+void MainWindow::on_deleteCertificate_clicked()
+{
+    Database::deleteCertificate(Database::getUser(ui->certificates->item(ui->certificates->currentRow(), 3)->text().toInt())->login,
+                                ui->certificates->item(ui->certificates->currentRow(), 13)->text());
+    ui->deleteCertificate->setEnabled(false);
+    initHRMenu();
+}
+
+void MainWindow::on_certificates_cellClicked(int row, int column)
+{
+    ui->deleteCertificate->setEnabled(true);
+}
+
+void MainWindow::on_mainTable_currentChanged(int index)
+{
+    ui->search->setEnabled(true);
+    ui->reset->setEnabled(true);
+    if (index > 0)
+    {
+        ui->search->setEnabled(false);
+        ui->reset->setEnabled(false);
+    }
 }

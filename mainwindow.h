@@ -58,6 +58,12 @@ private slots:
 
     void on_reset_2_clicked();
 
+    void on_deleteCertificate_clicked();
+
+    void on_certificates_cellClicked(int row, int column);
+
+    void on_mainTable_currentChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     User *currentUser;
