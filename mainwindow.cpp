@@ -66,6 +66,8 @@ void MainWindow::updateCurrentUser()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
+    on_reset_clicked();
+    on_reset_2_clicked();
     this->showNormal();
     if (index>0)
     {
